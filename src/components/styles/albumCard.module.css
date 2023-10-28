@@ -1,0 +1,74 @@
+
+.container{
+
+    height:fit-content;
+    width: 250px;
+    border-radius: 5px;
+    box-shadow:1px 1px 6px 1px rgb(220, 208, 208);
+    position: relative;
+}
+
+.container:hover{
+    transform: scale(1.01);
+}
+
+.action_buttons_container{
+    position: absolute;
+    right: 0px;
+    top: -20px;
+}
+.action_buttons{
+   visibility: hidden;
+}
+
+.container:hover .action_buttons{
+    visibility: visible;
+    padding: 10px;
+    font-size: .9rem;
+    background-color: orange;
+    border-radius: 50%;
+    color: black;
+    margin-left: 5px;
+}
+
+.save_cancel_container{
+    display: block;
+    text-align: left;
+    position: absolute;
+    left: 50px;
+    bottom: -11%;
+}
+
+#save_btn, #cancel_btn{
+border: none;
+color: white;
+margin: 2px;
+font-size: 1.2rem;
+border-radius: 10px;
+}
+
+#save_btn{
+    background-color: rgb(111, 111, 213);
+}
+
+#cancel_btn{
+    background-color: red;
+}
+
+.image{
+width: 100%;
+}
+
+.album_name{
+text-align: center;
+font-size: 1.1rem;
+text-transform: capitalize;
+padding: 5px;
+height: fit-content;
+width: 100%;
+border: none;
+overflow-y: hidden;
+resize: none;
+
+}
+
