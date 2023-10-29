@@ -7,6 +7,7 @@ import {
 //entity adapter for storage
 const albumsAdapter = createEntityAdapter({
   selectId: (elm) => elm.id,
+  sortComparer: (a, b) => b.id - a.id,
 });
 
 //async funct to fetch the data from api
@@ -16,6 +17,25 @@ export const fetchData = createAsyncThunk(
     const response = await fetch("https://jsonplaceholder.typicode.com/albums");
     const data = await response.json();
     return data;
+  }
+);
+
+//set album to databse
+export const saveAlbum = createAsyncThunk(
+  "albums/save",
+  async (data, { dispatch }) => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/albums`,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    ).catch((err) => console.log(err));
+    const responseData = await response.json();
+    return { data: responseData, ok: response.ok };
   }
 );
 
@@ -48,8 +68,8 @@ export const updateAlbum = createAsyncThunk(
         },
       }
     ).catch((err) => console.log(err));
-    const responseData = await response.json();
-    return { data: responseData, ok: response.ok };
+    // const responseData = await response.json();
+    return { data: data, ok: response.ok };
   }
 );
 
@@ -69,12 +89,14 @@ const albumSlice = createSlice({
         }
       })
       .addCase(updateAlbum.fulfilled, (state, { payload }) => {
-        if (payload.ok) {
-          albumsAdapter.updateOne(state, {
-            id: payload.data.id,
-            changes: { title: payload.data.title },
-          });
-        }
+        console.log(">>>> " + payload);
+        albumsAdapter.updateOne(state, {
+          id: payload.data.id,
+          changes: { title: payload.data.title },
+        });
+      })
+      .addCase(saveAlbum.fulfilled, (state, { payload }) => {
+        albumsAdapter.addOne(state, payload.data);
       });
   },
 });

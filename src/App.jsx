@@ -3,15 +3,13 @@ import { AlbumCard } from "./components/albumCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AlbumModal } from "./components/albumModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { albumSelectors, fetchData } from "./redux/reducers/album.reducer";
 import { deleteAlbum } from "./redux/reducers/album.reducer";
 function App() {
   const albums = useSelector(albumSelectors.selectAll);
-
   const dispatch = useDispatch();
-
   //fetch data by createAsyncThunk
   useEffect(() => {
     dispatch(fetchData());
@@ -21,6 +19,8 @@ function App() {
   const handleDelete = (id) => {
     dispatch(deleteAlbum(id));
   };
+
+  
 
   return (
     <>
@@ -37,7 +37,7 @@ function App() {
         </button>
       </nav>
       {/* take album name from user */}
-      <AlbumModal />
+      <AlbumModal  />
       <div className={style.albumcard_container}>
         {albums.map((e) => (
           <AlbumCard key={e.id} data={e} handleDelete={handleDelete} />

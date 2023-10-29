@@ -1,6 +1,25 @@
+import { useRef, useState } from "react";
+import { albumSelectors, saveAlbum } from "../redux/reducers/album.reducer";
+import { useDispatch, useSelector } from "react-redux";
+
+
 export function AlbumModal() {
+  const [albumTitle, setAlbumTitle] = useState();
+  const inputRef = useRef();
+  const dispatch = useDispatch();
+  const value = useSelector(albumSelectors.selectTotal);
 
+  //get input data and set to state
+  const handleInputTitle = () => {
+    setAlbumTitle(inputRef.current.value);
+  };
 
+  //add album to database
+  const addAlbum = () => {
+    dispatch(saveAlbum({id:value+1, title:albumTitle, userId:1}));
+    inputRef.current.value = '';
+    console.log(albumTitle);
+  };
 
   return (
     <>
@@ -28,6 +47,8 @@ export function AlbumModal() {
             <div className="modal-body">
               {/* input for album name */}
               <input
+                onChange={handleInputTitle}
+                ref={inputRef}
                 type="text"
                 className=" form-control input-lg"
                 placeholder="Text..."
@@ -46,6 +67,7 @@ export function AlbumModal() {
                 className="btn btn-primary "
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={addAlbum}
               >
                 Save changes
               </button>
